@@ -1,0 +1,115 @@
+/* Fondo degradado difuminado */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #c1a2ff, #89bdf7, #ffb6b9);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Tarjeta translúcida */
+.login-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 15px;
+  width: 350px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Icono superior */
+.avatar {
+  background: #1a2942;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar i {
+  color: white;
+  font-size: 35px;
+}
+
+/* Campos */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group i {
+  position: absolute;
+  top: 13px;
+  left: 15px;
+  color: #333;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+/* Opciones inferiores */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.options a {
+  color: #e1e1e1;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Botón principal */
+.btn-login {
+  width: 100%;
+  background: #1a2942;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-login:hover {
+  background: #324d7b;
+}
+
+/* Mensaje de error */
+.error-msg {
+  margin-top: 15px;
+  color: #ff5b5b;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+}

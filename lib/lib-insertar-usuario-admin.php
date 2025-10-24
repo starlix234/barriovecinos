@@ -1,6 +1,7 @@
-<?php
+<?php 
 require_once("lib-conexion.php");
 
+// Validar si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Capturar variables del formulario
@@ -8,29 +9,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $rut               = trim($_POST['rut']);
     $email             = trim($_POST['email']);
     $nombre_calle      = trim($_POST['nombre_calle']);
-    $numero_casa       = trim($_POST['numero_casa']);
-    $id_pais           = $_POST['id_pais'];
-    $id_region         = $_POST['id_region'];
-    $id_provincia      = $_POST['id_provincia'];
-    $id_comuna         = $_POST['id_comuna'];
+    $numero_casa       = intval($_POST['numero_casa']);
+    $id_pais           = intval($_POST['id_pais']);
+    $id_region         = intval($_POST['id_region']);
+    $id_provincia      = intval($_POST['id_provincia']);
+    $id_comuna         = intval($_POST['id_comuna']);
     $clave             = $_POST['clave']; 
+    $id_rol            = intval($_POST['id_rol']);
     $fecha_nacimiento  = $_POST['fecha_nacimiento'];
     $telefono          = trim($_POST['telefono']);
 
-
-    // Tu código original dejaba registrar a menores de 14
+    // Validar edad mínima (14 años)
     $fecha_actual = new DateTime();
     $fecha_nac = new DateTime($fecha_nacimiento);
     $diferencia = $fecha_actual->diff($fecha_nac)->y;
 
     if ($diferencia < 14) {
-        // Este es el mensaje de error 
         echo "<script>alert('Debes tener al menos 14 años para registrarte.'); window.history.back();</script>";
         exit;
     }
-    
 
-    // Verificar si el RUT ya existe (esta parte sí es segura)
+    // Verificar si el RUT ya existe
     $verificar_rut = $conexion->prepare("SELECT rut FROM usuarios WHERE rut = ?");
     $verificar_rut->bind_param("s", $rut);
     $verificar_rut->execute();
@@ -43,30 +42,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     $verificar_rut->close();
 
-   
+    // Insertar el nuevo usuario
     $sql = $conexion->prepare("INSERT INTO usuarios 
         (nombre_completo, rut, email, nombre_calle, numero_casa, id_pais, id_region, id_provincia, id_comuna, clave, fecha_nacimiento, telefono, id_rol)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 3)");
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); 
 
     $sql->bind_param(
-        "ssssiiiissss",
-        $nombre_completo, $rut, $email, $nombre_calle, $numero_casa,
-        $id_pais, $id_region, $id_provincia, $id_comuna,
-        $clave, 
-        $fecha_nacimiento, $telefono
+        "ssssiiiiisssi",
+        $nombre_completo,
+        $rut,
+        $email,
+        $nombre_calle,
+        $numero_casa,
+        $id_pais,
+        $id_region,
+        $id_provincia,
+        $id_comuna,
+        $clave,
+        $fecha_nacimiento,
+        $telefono,
+        $id_rol
     );
 
     if ($sql->execute()) {
-        echo "<script>alert('Registro exitoso. Ahora puedes iniciar sesión.'); window.location.href='../login.php';</script>";
+        echo "<script>alert('Registro exitoso. Ahora puedes iniciar sesión.'); window.location.href='../panel-admin.php';</script>";
     } else {
-        echo "<script>alert('Error al registrar el usuario: " . $sql->error . "'); window.history.back();</script>";
+        echo "Error al registrar usuario: " . $sql->error;
     }
 
     $sql->close();
     $conexion->close();
-
 } else {
-    header("Location: ../registrarse.php");
+    header("Location: ../panel-admin.php");
     exit;
 }
 ?>

@@ -23,5 +23,10 @@ $sql4 = "SELECT * FROM region";
 $consulta4= $conexion->query($sql4); 
 $fila4 = $consulta4->num_rows;
 
+//consultar perfiles de usuario
+$sql5= "SELECT * FROM roles WHERE id_rol IN (2, 3);";
+$consulta5=$conexion->query($sql5); 
+$fila5=$consulta5->num_rows;
+
 
 ?>

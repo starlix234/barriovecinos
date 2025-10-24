@@ -1,7 +1,15 @@
 <?php
 // llamando librerias
+require_once("lib/lib-sesion-datos.php"); 
 include("lib/lib-datos-consulta-direccion.php");
+
+// Verificar que el usuario esté logueado como administrador
+if (!$usuario || $usuario['id_rol'] != 1) {
+    header("Location: index.php");
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,7 +26,7 @@ include("lib/lib-datos-consulta-direccion.php");
       
       <h2 style="color: white; text-align: center; margin-bottom: 25px;">Registro de Vecino</h2>
 
-      <form action="lib/lib-insertar-usuario.php" method="POST">
+      <form action="lib/lib-insertar-usuario-admin.php" method="POST">
         
         <label for="nombre_completo">Nombre completo</label>
         <div class="input-group">
@@ -116,6 +124,20 @@ include("lib/lib-datos-consulta-direccion.php");
             </select>
         </div>
 
+        <label for="id_rol">Tipo de usuarios</label>
+        <div class="input-group">
+            <select name="id_rol" id="id_rol" required>
+                <option value="" disabled selected>Elige el usuario</option>
+                <?php 
+                if (isset($consulta5) && $consulta5->num_rows > 0) {
+                    while ($row = $consulta5->fetch_assoc()) { ?>
+                        <option value="<?php echo $row['id_rol']; ?>"><?php echo $row['nombre_rol']; ?></option>
+                    <?php }
+                } ?>
+            </select>
+        </div>
+
+
         <hr style="border-color: rgba(255,255,255,0.3); margin: 20px 0;">
 
         <label for="clave">Crea una Clave</label>
@@ -140,6 +162,7 @@ include("lib/lib-datos-consulta-direccion.php");
   </div>
 
     <?php
+    // Liberar resultados de consulta (buena práctica)
     if (isset($consulta)) $consulta->free();
     if (isset($consulta2)) $consulta2->free();
     if (isset($consulta3)) $consulta3->free();

@@ -31,14 +31,14 @@ if ($idUsuario) {
 
     // Guardar info en sesión (opcional, si no está)
     $_SESSION['id_rol'] = $usuario['id_rol'];
-    echo $_SESSION['nombre'] = $usuario['nombre_completo'];
+     $_SESSION['nombre'] = $usuario['nombre_completo'];
 } else {
     $usuario = null;
 }
 
 // Helper para mapear panel por rol
 function panelPorRol(?int $rol): ?array {
-    if ($rol === 1) return ["../Vista/vista-admin.php", "Panel Admin"];
+    if ($rol === 1) return ["Panel-admin.php", "Panel Admin"];
     if ($rol === 2) return ["../Vista/vista-jefe-vecinos.php", "Panel Jefe Vecinos"];
     if ($rol === 3) return ["../Vista/vista-miembro-vecino.php", "Panel Miembro Vecino"];
     return null;

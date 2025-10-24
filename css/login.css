@@ -1,3 +1,7 @@
+/* Arreglo universal de box-model */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 /* Fondo degradado difuminado */
 body {
   margin: 0;
@@ -65,8 +69,8 @@ body {
   border: none;
   outline: none;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
+  background: rgba(255, 255, 255, 0.5);
+  box-sizing: border-box; 
 }
 
 /* Opciones inferiores */
@@ -112,4 +116,45 @@ body {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   padding: 8px;
+}
+
+/* --- ESTILOS ADICIONALES PARA REGISTRO --- */
+
+/* Ajustar la tarjeta para que quepa más contenido */
+.login-card.register-card {
+  width: 450px; /* Un poco más ancha */
+  max-height: 90vh; /* Alto máximo */
+  overflow-y: auto; /* Scroll si es necesario */
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+/* Estilo para las etiquetas (label) */
+.login-card label {
+  display: block;
+  margin-bottom: 5px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+/* Estilo para los selectores (País, Región, etc.) */
+.input-group select {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  box-sizing: border-box; /* Para que el padding no rompa el ancho */
+  font-family: "Poppins", sans-serif;
+  color: #000000;
+}
+
+/* Scrollbar bonito (opcional) */
+.login-card.register-card::-webkit-scrollbar {
+  width: 8px;
+}
+.login-card.register-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
 }

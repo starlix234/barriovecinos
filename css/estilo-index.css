@@ -1,0 +1,42 @@
+
+/* Estilo para las tarjetas de acción (botones grandes) */
+.card-portal {
+    text-decoration: none; 
+    color: #333;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    height: 100%; 
+}
+
+/* Efecto al pasar el mouse */
+.card-portal:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    color: #0056b3; 
+}
+
+/* Estilo para el icono dentro de la tarjeta */
+.card-portal i {
+    font-size: 3.5rem; 
+    margin-bottom: 15px;
+    color: #5591ebcc;  
+}
+
+.card-portal .card-title {
+    font-size: 1.75rem; 
+    font-weight: 600;
+}
+
+/* Texto de la tarjeta (más grande) */
+.card-portal .card-text {
+    font-size: 1.1rem; 
+}
+
+
+.seccion-anuncios {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}

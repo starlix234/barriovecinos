@@ -24,7 +24,7 @@ include("menu.php");
     <div class="row mb-4">
         <div class="col-12 text-center">
             <?php if ($usuario): ?>
-                <h1 class="display-4">¡Bienbenida/o, <?php echo htmlspecialchars(explode(' ', $usuario['nombre_completo'])[0]); ?>!</h1>
+                <h1 class="display-4">¡Bienvenida/o, <?php echo htmlspecialchars(explode(' ', $usuario['nombre_completo'])[0]); ?>!</h1>
                 <p class="lead fs-3">Bienvenido a este nuevo portal de la junta de vecinos de la cumuna "nom-comuna"</p>
             <?php else: ?>
                 <h1 class="display-4">Bienvenido a MiBarrioAp</h1>

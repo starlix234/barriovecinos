@@ -28,7 +28,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </li>
 
         <li class="nav-item">
-          <a class="nav-link <?= ($current_page == 'certificados.php') ? 'active fw-bold text-primary' : ''; ?>" href="">Certificados</a>
+          <a class="nav-link <?= ($current_page == 'certificados.php') ? 'active fw-bold text-primary' : ''; ?>" href="certificados.php">Certificados</a>
         </li>
 
         <?php 

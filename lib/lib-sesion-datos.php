@@ -39,7 +39,7 @@ if ($idUsuario) {
 // Helper para mapear panel por rol
 function panelPorRol(?int $rol): ?array {
     if ($rol === 1) return ["Panel-admin.php", "Panel Admin"];
-    if ($rol === 2) return ["../Vista/vista-jefe-vecinos.php", "Panel Jefe Vecinos"];
+    if ($rol === 2) return ["crear-proyecto.php", "Panel "];
     if ($rol === 3) return ["../Vista/vista-miembro-vecino.php", "Panel Miembro Vecino"];
     return null;
 }

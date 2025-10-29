@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-10-2025 a las 22:14:53
+-- Tiempo de generación: 30-10-2025 a las 00:56:29
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -385,7 +385,9 @@ INSERT INTO `estados` (`id_estado`, `tipo_estado`) VALUES
 (3, 'Aprobado'),
 (4, 'Rechazado'),
 (5, 'Completado'),
-(6, 'Cancelado');
+(6, 'Cancelado'),
+(7, 'Publicado'),
+(9, 'no vigente');
 
 -- --------------------------------------------------------
 
@@ -491,6 +493,32 @@ INSERT INTO `provincia` (`id_provincia`, `nom_provincia`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `proyectos`
+--
+
+CREATE TABLE `proyectos` (
+  `id_proyecto` int(11) NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `descripcion` text NOT NULL,
+  `fecha_publicacion` date DEFAULT curdate(),
+  `fecha_inicio` date DEFAULT curdate(),
+  `fecha_fin` date DEFAULT NULL,
+  `id_usuario_creador` int(11) NOT NULL,
+  `id_estado` int(11) NOT NULL DEFAULT 1,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `proyectos`
+--
+
+INSERT INTO `proyectos` (`id_proyecto`, `titulo`, `descripcion`, `fecha_publicacion`, `fecha_inicio`, `fecha_fin`, `id_usuario_creador`, `id_estado`, `fecha_creacion`) VALUES
+(1, 'Arreglos de luminaria', 'arreglara las luminaria de una plaza vieja y anticuada', '2025-10-29', '2025-10-19', '2025-12-10', 5, 3, '2025-10-29 23:25:49'),
+(2, 'Arreglos de luminaria', 'arreglara las luminaria de una plaza vieja y anticuada', '2025-10-29', '2025-10-19', '2025-12-10', 5, 3, '2025-10-29 23:25:58');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `region`
 --
 
@@ -538,8 +566,8 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id_rol`, `nombre_rol`) VALUES
 (1, 'Moderador'),
-(2, 'Jefe de junta de vecinos'),
-(3, 'miembro');
+(2, 'Miembro de la junta de vecinos'),
+(3, 'Usuario');
 
 -- --------------------------------------------------------
 
@@ -562,7 +590,53 @@ CREATE TABLE `solicitud` (
 --
 
 INSERT INTO `solicitud` (`id_solicitud`, `id_usuario_solicita`, `id_tipo_soli`, `asunto`, `descripcion`, `id_estado`, `fecha_creacion`) VALUES
-(1, 8, 1, 'necesito poder cambiar mi direccion por favor', 'safdsffsf', 1, '2025-10-24 20:50:33');
+(1, 8, 1, 'necesito poder cambiar mi direccion por favor', 'safdsffsf', 1, '2025-10-24 20:50:33'),
+(2, 5, 8, 'sdadasdasd', 'asdasdasdasda', 1, '2025-10-29 23:30:12');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solicitud_certificado`
+--
+
+CREATE TABLE `solicitud_certificado` (
+  `id_solicitud` int(11) NOT NULL,
+  `id_us` int(11) NOT NULL,
+  `id_certi` int(11) NOT NULL,
+  `id_estado` int(11) NOT NULL DEFAULT 1,
+  `motivo` text NOT NULL,
+  `fecha_solicitud` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `solicitud_certificado`
+--
+
+INSERT INTO `solicitud_certificado` (`id_solicitud`, `id_us`, `id_certi`, `id_estado`, `motivo`, `fecha_solicitud`) VALUES
+(1, 5, 3, 1, 'para destruir el mundo y nada mas', '2025-10-29 22:16:15'),
+(2, 5, 3, 1, 'dksldfkdlñasdkalsñdkaslñdkaslñdas', '2025-10-29 22:16:38');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_certificado`
+--
+
+CREATE TABLE `tipo_certificado` (
+  `id_certi` int(11) NOT NULL,
+  `nombre_certificado` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_certificado`
+--
+
+INSERT INTO `tipo_certificado` (`id_certi`, `nombre_certificado`) VALUES
+(1, 'Certificado de residencia'),
+(2, 'Certificado de inscripción vecinal'),
+(3, 'Certificado de participación en proyectos comunitarios'),
+(4, 'Certificado de buena conducta vecinal'),
+(5, 'Certificado de voluntariado barrial');
 
 -- --------------------------------------------------------
 
@@ -584,9 +658,6 @@ INSERT INTO `tipo_solicitud` (`id_tipo_soli`, `tipo_soli`) VALUES
 (2, 'Enviar una Sugerencia (Ej: Poner una ban'),
 (3, 'Consulta General (Ej: Próxima reunión)'),
 (4, 'Inscripción como vecino en la junta'),
-(5, 'Certificado de residencia'),
-(6, 'Certificado de antigüedad en la comunida'),
-(7, 'Certificado de miembro activo de la junt'),
 (8, 'Actualización de datos personales');
 
 -- --------------------------------------------------------
@@ -619,7 +690,7 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_us`, `nombre_completo`, `fecha_nacimiento`, `rut`, `telefono`, `email`, `nombre_calle`, `numero_casa`, `clave`, `id_rol`, `id_comuna`, `id_provincia`, `id_pais`, `id_region`) VALUES
 (1, 'constanza valeria leiva vera', '1994-10-24', '18.608.676-7', 8491253, 'con.leiva@duocuc.cl', 'los alarifes', 2222, '123456789', 1, 13118, 22, 1, 16),
 (2, 'Cristobal Ferraro Freire', '2001-10-03', '20.111.111-5', 8491253, 'cri.ferraro@duocuc.cl', 'los alarifes', 3333, '123456789', 2, 13113, 22, 1, 16),
-(5, 'Bob construye podran hacerlo No podemos', '2002-10-10', '20.204.205-7', 8491253, 'bob-Destrulle@gmail.com', 'los alarifes', 2424, '987654321', 3, 13102, 3, 1, 9),
+(5, 'Bob construye podran hacerlo No podemos', '2002-10-10', '20.204.205-7', 8491253, 'bob-Destrulle@gmail.com', 'los alarifes', 2424, '123456789', 2, 13102, 3, 1, 9),
 (7, 'Patricio estrella', '1999-06-09', '11.111.111-1', 12354789, 'donpatricio.@gmail.com', 'Padre hurtado', 2223, '123456789', 3, 13119, 22, 1, 16),
 (8, 'Bob construye podran hacerlo si podemos', '2002-11-11', '20.999.444-5', 8491253, 'bob-construye@gmail.com', 'los alarifes', 234455, '123456789', 3, 13116, 14, 1, 7);
 
@@ -652,6 +723,14 @@ ALTER TABLE `provincia`
   ADD PRIMARY KEY (`id_provincia`);
 
 --
+-- Indices de la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
+  ADD PRIMARY KEY (`id_proyecto`),
+  ADD KEY `id_usuario_creador` (`id_usuario_creador`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
 -- Indices de la tabla `region`
 --
 ALTER TABLE `region`
@@ -671,6 +750,21 @@ ALTER TABLE `solicitud`
   ADD KEY `id_usuario_solicita` (`id_usuario_solicita`),
   ADD KEY `id_tipo_soli` (`id_tipo_soli`),
   ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `solicitud_certificado`
+--
+ALTER TABLE `solicitud_certificado`
+  ADD PRIMARY KEY (`id_solicitud`),
+  ADD KEY `id_us` (`id_us`),
+  ADD KEY `id_certi` (`id_certi`),
+  ADD KEY `id_estado` (`id_estado`);
+
+--
+-- Indices de la tabla `tipo_certificado`
+--
+ALTER TABLE `tipo_certificado`
+  ADD PRIMARY KEY (`id_certi`);
 
 --
 -- Indices de la tabla `tipo_solicitud`
@@ -703,7 +797,7 @@ ALTER TABLE `comuna`
 -- AUTO_INCREMENT de la tabla `estados`
 --
 ALTER TABLE `estados`
-  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `pais`
@@ -716,6 +810,12 @@ ALTER TABLE `pais`
 --
 ALTER TABLE `provincia`
   MODIFY `id_provincia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
+--
+-- AUTO_INCREMENT de la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
+  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `region`
@@ -733,7 +833,19 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `solicitud`
 --
 ALTER TABLE `solicitud`
-  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `solicitud_certificado`
+--
+ALTER TABLE `solicitud_certificado`
+  MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `tipo_certificado`
+--
+ALTER TABLE `tipo_certificado`
+  MODIFY `id_certi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_solicitud`
@@ -752,12 +864,27 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- Filtros para la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
+  ADD CONSTRAINT `proyectos_ibfk_1` FOREIGN KEY (`id_usuario_creador`) REFERENCES `usuarios` (`id_us`),
+  ADD CONSTRAINT `proyectos_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`);
+
+--
 -- Filtros para la tabla `solicitud`
 --
 ALTER TABLE `solicitud`
   ADD CONSTRAINT `solicitud_ibfk_1` FOREIGN KEY (`id_usuario_solicita`) REFERENCES `usuarios` (`id_us`),
   ADD CONSTRAINT `solicitud_ibfk_2` FOREIGN KEY (`id_tipo_soli`) REFERENCES `tipo_solicitud` (`id_tipo_soli`),
   ADD CONSTRAINT `solicitud_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`);
+
+--
+-- Filtros para la tabla `solicitud_certificado`
+--
+ALTER TABLE `solicitud_certificado`
+  ADD CONSTRAINT `solicitud_certificado_ibfk_1` FOREIGN KEY (`id_us`) REFERENCES `usuarios` (`id_us`),
+  ADD CONSTRAINT `solicitud_certificado_ibfk_2` FOREIGN KEY (`id_certi`) REFERENCES `tipo_certificado` (`id_certi`),
+  ADD CONSTRAINT `solicitud_certificado_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`);
 
 --
 -- Filtros para la tabla `usuarios`

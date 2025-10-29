@@ -18,7 +18,6 @@ require("lib/lib-solicitud-realizada.php");
 
     <div class="row g-5">
 
-        <!-- FORMULARIO DE NUEVA SOLICITUD -->
         <div class="col-lg-6">
             <h1 class="display-5 mb-3">Enviar una Solicitud</h1>
             <p class="lead fs-4 mb-4">Reporta un problema, envía una sugerencia o realiza una consulta a la directiva.</p>
@@ -29,7 +28,6 @@ require("lib/lib-solicitud-realizada.php");
 
                 <input type="hidden" name="id_usuario_solicita" value="<?php echo $usuario['id_us']; ?>">
 
-                <!-- Tipo de solicitud -->
                 <div class="mb-4">
                     <label for="id_tipo_soli" class="form-label fs-5">Tipo de Solicitud</label>
                     <select class="form-select form-select-lg" id="id_tipo_soli" name="id_tipo_soli" required>
@@ -42,13 +40,11 @@ require("lib/lib-solicitud-realizada.php");
                     </select>
                 </div>
 
-                <!-- Asunto -->
                 <div class="mb-4">
                     <label for="asunto" class="form-label fs-5">Asunto</label>
                     <input type="text" class="form-control form-control-lg" id="asunto" name="asunto" placeholder="Un resumen breve de tu solicitud" required>
                 </div>
 
-                <!-- Descripción -->
                 <div class="mb-4">
                     <label for="descripcion" class="form-label fs-5">Descripción Detallada</label>
                     <textarea class="form-control form-control-lg" id="descripcion" name="descripcion" rows="6" placeholder="Por favor, entrega todos los detalles aquí..." required></textarea>
@@ -58,7 +54,6 @@ require("lib/lib-solicitud-realizada.php");
             </form>
         </div>
 
-        <!-- HISTORIAL DE SOLICITUDES -->
         <div class="col-lg-6">
             <h2 class="display-6 mb-3">Mis Solicitudes Anteriores</h2>
 
@@ -66,7 +61,6 @@ require("lib/lib-solicitud-realizada.php");
                 <?php if ($resultado_historial->num_rows > 0): ?>
                     <?php while ($solicitud = $resultado_historial->fetch_assoc()): ?>
                         <?php
-                            // Colores dinámicos según el estado
                             $color_estado = 'secondary';
                             switch (strtolower($solicitud['estado'])) {
                                 case 'pendiente': $color_estado = 'secondary'; break;
